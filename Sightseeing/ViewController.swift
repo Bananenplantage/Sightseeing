@@ -28,8 +28,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.showsStatistics = true
         
         // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        //let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        //let scene = SCNScene(named: "art.scnassets/cone.scn")!
         
+        // Set the scene to the view
+        let cone = SCNCone(topRadius: 0.000001, bottomRadius: 0.005, height: 0.01)
+        let coneNode = SCNNode(geometry: cone)
+        coneNode.position = SCNVector3Make(-0.005, -0.05, -0.2)
+        sceneView.pointOfView?.addChildNode(coneNode)
+        //sceneView.scene = scene
+        //sceneView.pointOfView?.addChildNode(scene)
+        
+        //Location Manager
         if (CLLocationManager.locationServicesEnabled())
         {
             locationManager = CLLocationManager()
@@ -41,9 +51,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         }
         //Enables the function to follow user current location
         mapView.userTrackingMode = .follow
-        
-        // Set the scene to the view
-        sceneView.scene = scene
     }
     
     
