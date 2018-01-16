@@ -3,7 +3,7 @@
 //  Sightseeing
 //
 //  Created by Dominik Kura on 11.01.18.
-//  Copyright © 2018 Dominik Kura. All rights reserved.
+//  Copyright © 2018 Dominik Kura & Aleksandar Mitkovski. All rights reserved.
 //
 
 import UIKit
@@ -12,11 +12,11 @@ import ARKit
 import CoreLocation
 import MapKit
 
-class ViewController: UIViewController, ARSCNViewDelegate {
+class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var mapView: MKMapView!
-    var locationManager:CLLocationManager!
+    var locationManager: CLLocationManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,14 +43,38 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         if (CLLocationManager.locationServicesEnabled())
         {
             locationManager = CLLocationManager()
-            locationManager.delegate = self as? CLLocationManagerDelegate
+            locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.requestAlwaysAuthorization()
             locationManager.startUpdatingLocation()
             
         }
+        
+        //Test with Pins
+        let annotation = MKPointAnnotation()
+        //Change latitude and longitude for pin-location on map
+        let centerCoordinate = CLLocationCoordinate2D(latitude: 50.5649159283409, longitude:9.68554024258342)
+        annotation.coordinate = centerCoordinate
+        annotation.title = "Test Pin"
+        mapView.addAnnotation(annotation)
+        
+        
         //Enables the function to follow user current location
         mapView.userTrackingMode = .follow
+    }
+    
+    // Get users current position
+    func locationManager(_ manager: CLLocationManager,
+                         didUpdateLocations locations: [CLLocation]) {
+        
+        let locationArray = locations as NSArray
+        let locationObj = locationArray.lastObject as! CLLocation
+        let coord = locationObj.coordinate
+        
+        let lattitude = coord.latitude
+        let longitude = coord.longitude
+        print(lattitude)
+        print(longitude)
     }
     
     
