@@ -34,7 +34,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         // Set the scene to the view
         let cone = SCNCone(topRadius: 0.000001, bottomRadius: 0.005, height: 0.01)
         let coneNode = SCNNode(geometry: cone)
-        coneNode.position = SCNVector3Make(-0.005, -0.05, -0.2)
+        coneNode.position = SCNVector3Make(-0.005, -0.035, -0.2)
         sceneView.pointOfView?.addChildNode(coneNode)
         //sceneView.scene = scene
         //sceneView.pointOfView?.addChildNode(scene)
@@ -53,9 +53,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         //Test with Pins
         let annotation = MKPointAnnotation()
         //Change latitude and longitude for pin-location on map
-        let centerCoordinate = CLLocationCoordinate2D(latitude: 50.5649159283409, longitude:9.68554024258342)
+        let centerCoordinate = CLLocationCoordinate2D(latitude:50.553982, longitude:9.672059)
         annotation.coordinate = centerCoordinate
-        annotation.title = "Test Pin"
+        annotation.title = "Dom Fulda"
         mapView.addAnnotation(annotation)
         
         
