@@ -17,6 +17,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var mapView: MKMapView!
     var locationManager: CLLocationManager!
+    var anchor: ARAnchor!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +40,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         //sceneView.scene = scene
         //sceneView.pointOfView?.addChildNode(scene)
         
+        // Adding Objects on specific positions
+        let circleNode = createSphereNode(with: 0.01, color: .blue)
+        circleNode.position = SCNVector3(0, 0, -1) // 1 meter in front of camera
+        sceneView.scene.rootNode.addChildNode(circleNode)
+        
+        
         //Location Manager
         if (CLLocationManager.locationServicesEnabled())
         {
@@ -47,7 +54,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.requestAlwaysAuthorization()
             locationManager.startUpdatingLocation()
-            
         }
         
         //Test with Pins
@@ -71,10 +77,24 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let locationObj = locationArray.lastObject as! CLLocation
         let coord = locationObj.coordinate
         
-        let lattitude = coord.latitude
+        let latitude = coord.latitude
         let longitude = coord.longitude
-        print(lattitude)
-        print(longitude)
+        print("latitude: \(latitude)")
+        print("longitude: \(longitude)")
+        
+        let destlat = 50.553982
+        let destlong = 9.672059
+        
+        let lat1Rad = latitude * .pi / 180;
+        let lat2Rad = destlat * .pi / 180;
+        
+        let dLon = (destlong - longitude) * .pi/180
+        
+        let y = sin(dLon) * cos(lat2Rad)
+        let x = cos(lat1Rad) * sin(lat2Rad) - sin(lat1Rad) * cos(lat2Rad) * cos(dLon)
+        
+        let bearingRad = atan2(y,x)
+        print("bearing \(fmod((bearingRad * 180 / .pi + 360 ),360))")
     }
     
     
@@ -117,6 +137,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         
         self.mapView.setRegion(region, animated: true)
+    }
+    
+    func createSphereNode(with radius: CGFloat, color: UIColor) -> SCNNode {
+        let geometry = SCNSphere(radius: radius)
+        geometry.firstMaterial?.diffuse.contents = color
+        let sphereNode = SCNNode(geometry: geometry)
+        print("created sphereNode")
+        return sphereNode
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
