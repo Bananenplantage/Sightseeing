@@ -26,11 +26,19 @@
                                 <rect key="frame" x="706" y="20" width="386" height="218"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bvx-HS-hi7">
+                                <rect key="frame" x="20" y="20" width="191" height="47"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="pj4-AI-q4p"/>
                     </view>
                     <connections>
+                        <outlet property="labelBearing" destination="bvx-HS-hi7" id="fFM-Sk-nR3"/>
                         <outlet property="mapView" destination="xkr-Mu-0QK" id="dWy-x9-tVx"/>
                         <outlet property="sceneView" destination="kHy-dv-U2q" id="ayJ-Wr-wx5"/>
                     </connections>

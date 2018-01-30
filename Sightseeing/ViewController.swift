@@ -12,12 +12,16 @@ import ARKit
 import CoreLocation
 import MapKit
 
-class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDelegate {
+class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDelegate{
 
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var labelBearing: UILabel!
     var locationManager: CLLocationManager!
     var anchor: ARAnchor!
+    
+    var circleNode = SCNNode()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,22 +33,25 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         sceneView.showsStatistics = true
         
         // Create a new scene
+        let scene = SCNScene()
         //let scene = SCNScene(named: "art.scnassets/ship.scn")!
         //let scene = SCNScene(named: "art.scnassets/cone.scn")!
         
         // Set the scene to the view
+        
+        
         let cone = SCNCone(topRadius: 0.000001, bottomRadius: 0.005, height: 0.01)
         let coneNode = SCNNode(geometry: cone)
         coneNode.position = SCNVector3Make(-0.005, -0.035, -0.2)
         sceneView.pointOfView?.addChildNode(coneNode)
-        //sceneView.scene = scene
-        //sceneView.pointOfView?.addChildNode(scene)
+ 
         
         // Adding Objects on specific positions
-        let circleNode = createSphereNode(with: 0.01, color: .blue)
-        circleNode.position = SCNVector3(0, 0, -1) // 1 meter in front of camera
-        sceneView.scene.rootNode.addChildNode(circleNode)
-        
+        circleNode = createSphereNode(with: 0.01, color: .blue)
+        //circleNode.position = SCNVector3(0, 0, -1) // 1 meter in front of camera
+        scene.rootNode.addChildNode(circleNode)
+    
+        sceneView.scene = scene
         
         //Location Manager
         if (CLLocationManager.locationServicesEnabled())
@@ -94,7 +101,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let x = cos(lat1Rad) * sin(lat2Rad) - sin(lat1Rad) * cos(lat2Rad) * cos(dLon)
         
         let bearingRad = atan2(y,x)
-        print("bearing \(fmod((bearingRad * 180 / .pi + 360 ),360))")
+        let bearing = fmod((bearingRad * 180 / .pi + 360 ),360)
+        
+        let stringFromDouble:String = String(format:"%f", bearing)
+        print("bearing \(bearing)")
+        labelBearing.text = stringFromDouble
+        translateAndRotateNode(with: Float(bearing))
+        
     }
     
     
@@ -103,7 +116,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
-
+        configuration.worldAlignment = .gravityAndHeading//.gravity
         // Run the view's session
         sceneView.session.run(configuration)
     }
@@ -145,6 +158,17 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let sphereNode = SCNNode(geometry: geometry)
         print("created sphereNode")
         return sphereNode
+    }
+    
+    func translateAndRotateNode(with rotationY: Float){
+        // Translate first on -z direction
+        let translation = SCNMatrix4MakeTranslation(0, 0, Float(-0.2))
+        // Rotate (yaw) around y axis
+        let rotation = SCNMatrix4MakeRotation(-1 * rotationY, 0, 1, 0)
+        
+        // Final transformation: TxR
+        circleNode.transform = SCNMatrix4Mult(translation, rotation)
+        
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
