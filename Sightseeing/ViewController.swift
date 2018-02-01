@@ -22,9 +22,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     var circleNode = SCNNode()
     
+    var locData = LocationData()
     // Destination coords
-    let destlat = 50.562131 //50.553982
-    let destlong = 9.682576 //9.6720
+    /*var destlat:Double = 50.562131
+    var destlong:Double = 9.682576*/
     
     var firstTime: Bool = false
     
@@ -50,7 +51,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
  
         
         // Create circle node
-        circleNode = createSphereNode(with: 1, color: .blue)
+        circleNode = createSphereNode(with: 1, color: .red)
         //circleNode.position = SCNVector3(0, 0, -1) // 1 meter in front of camera
         scene.rootNode.addChildNode(circleNode)
     
@@ -69,7 +70,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         //Test with Pins
         let annotation = MKPointAnnotation()
         //Change latitude and longitude for pin-location on map
-        let centerCoordinate = CLLocationCoordinate2D(latitude:destlat, longitude:destlong)
+        let centerCoordinate = CLLocationCoordinate2D(latitude:9.682576, longitude:50.562131)
         annotation.coordinate = centerCoordinate
         annotation.title = "Dom Fulda"
         mapView.addAnnotation(annotation)
@@ -91,8 +92,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let longitude = coord.longitude
         print("latitude: \(latitude)")
         print("longitude: \(longitude)")
-        
-        let bearing = getBearingOfLocAndDest(longitude: longitude, latitude: latitude, destinationLongitude: destlong, destinationLatitude: destlat)
+
+        let bearing = locData.getBearingOfLocAndDest(longitude: longitude, latitude: latitude)
         
         let stringFromDouble:String = String(format:"%f", bearing)
         print("bearing \(bearing)")
@@ -107,20 +108,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             //circleNode.transform = SCNMatrix4MakeTranslation(0, 0, Float(-0.5))
             print("translated node")
         }
-    }
-    
-    func getBearingOfLocAndDest(longitude: Double, latitude: Double, destinationLongitude: Double, destinationLatitude: Double) -> Double{
-        let lat1Rad = latitude * .pi / 180;
-        let lat2Rad = destinationLatitude * .pi / 180;
-        
-        let dLon = (destinationLongitude - longitude) * .pi/180
-        
-        let y = sin(dLon) * cos(lat2Rad)
-        let x = cos(lat1Rad) * sin(lat2Rad) - sin(lat1Rad) * cos(lat2Rad) * cos(dLon)
-        
-        let bearingRad = atan2(y,x)
-        
-        return fmod((bearingRad * 180 / .pi + 360 ),360)
     }
     
     override func viewWillAppear(_ animated: Bool) {
