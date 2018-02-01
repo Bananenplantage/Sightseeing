@@ -59,12 +59,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         }
         
         //Test with Pins
+        print("Set pins")
         let annotation = MKPointAnnotation()
         //Change latitude and longitude for pin-location on map
-        let centerCoordinate = CLLocationCoordinate2D(latitude:9.682576, longitude:50.562131)
+        let centerCoordinate = CLLocationCoordinate2D(latitude:50.553989, longitude:9.672046)
         annotation.coordinate = centerCoordinate
         annotation.title = "Dom Fulda"
         mapView.addAnnotation(annotation)
+        print("Annotation \(annotation.coordinate)")
         
         //Enables the function to follow user current location
         mapView.userTrackingMode = .follow
