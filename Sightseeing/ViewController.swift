@@ -19,14 +19,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     @IBOutlet weak var labelBearing: UILabel!
     var locationManager: CLLocationManager!
     var anchor: ARAnchor!
-    
     var circleNode = SCNNode()
-    
     var locData = LocationData()
-    // Destination coords
-    /*var destlat:Double = 50.562131
-    var destlong:Double = 9.682576*/
-    
     var firstTime: Bool = false
     
     override func viewDidLoad() {
@@ -40,8 +34,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         // Create a new scene
         let scene = SCNScene()
-        //let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        //let scene = SCNScene(named: "art.scnassets/cone.scn")!
         
         // Create cone (which acts as a dummy for the orientation arrow)
         let cone = SCNCone(topRadius: 0.000001, bottomRadius: 0.005, height: 0.01)
@@ -49,7 +41,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         coneNode.position = SCNVector3Make(-0.005, -0.035, -0.2)
         sceneView.pointOfView?.addChildNode(coneNode)
  
-        
         // Create circle node
         circleNode = createSphereNode(with: 1, color: .red)
         //circleNode.position = SCNVector3(0, 0, -1) // 1 meter in front of camera
@@ -75,39 +66,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         annotation.title = "Dom Fulda"
         mapView.addAnnotation(annotation)
         
-        
         //Enables the function to follow user current location
         mapView.userTrackingMode = .follow
-    }
-    
-    // Get users current position
-    func locationManager(_ manager: CLLocationManager,
-                         didUpdateLocations locations: [CLLocation]) {
-        
-        let locationArray = locations as NSArray
-        let locationObj = locationArray.lastObject as! CLLocation
-        let coord = locationObj.coordinate
-        
-        let latitude = coord.latitude
-        let longitude = coord.longitude
-        print("latitude: \(latitude)")
-        print("longitude: \(longitude)")
-
-        let bearing = locData.getBearingOfLocAndDest(longitude: longitude, latitude: latitude)
-        
-        let stringFromDouble:String = String(format:"%f", bearing)
-        print("bearing \(bearing)")
-        labelBearing.text = stringFromDouble
-        
-        if(!firstTime){
-            translateAndRotateNode(with: GLKMathDegreesToRadians(Float(bearing)))
-            firstTime = true
-            print("translated and rotated node")
-        }
-        else{
-            //circleNode.transform = SCNMatrix4MakeTranslation(0, 0, Float(-0.5))
-            print("translated node")
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -142,6 +102,25 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         return node
     }
 */
+
+    func session(_ session: ARSession, didFailWithError error: Error) {
+        // Present an error message to the user
+    
+    }
+    
+    func sessionWasInterrupted(_ session: ARSession) {
+        // Inform the user that the session has been interrupted, for example, by presenting an overlay
+        
+    }
+    
+    func sessionInterruptionEnded(_ session: ARSession) {
+        // Reset tracking and/or remove existing anchors if consistent tracking is required
+        
+    }
+    
+    // New functions:
+    
+    // MapView settings
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         let location = locations.last as! CLLocation
         
@@ -149,6 +128,36 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         
         self.mapView.setRegion(region, animated: true)
+    }
+    
+    // Get users current position
+    func locationManager(_ manager: CLLocationManager,
+                         didUpdateLocations locations: [CLLocation]) {
+        
+        let locationArray = locations as NSArray
+        let locationObj = locationArray.lastObject as! CLLocation
+        let coord = locationObj.coordinate
+        
+        let latitude = coord.latitude
+        let longitude = coord.longitude
+        print("latitude: \(latitude)")
+        print("longitude: \(longitude)")
+        
+        let bearing = locData.getBearingOfLocAndDest(longitude: longitude, latitude: latitude)
+        
+        let stringFromDouble:String = String(format:"%f", bearing)
+        print("bearing \(bearing)")
+        labelBearing.text = stringFromDouble
+        
+        if(!firstTime){
+            translateAndRotateNode(with: GLKMathDegreesToRadians(Float(bearing)))
+            firstTime = true
+            print("translated and rotated node")
+        }
+        else{
+            //circleNode.transform = SCNMatrix4MakeTranslation(0, 0, Float(-0.5))
+            print("translated node")
+        }
     }
     
     func createSphereNode(with radius: CGFloat, color: UIColor) -> SCNNode {
@@ -164,24 +173,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let translation = SCNMatrix4MakeTranslation(0, 0, Float(-100))
         // Rotate (yaw) around y axis
         let rotation = SCNMatrix4MakeRotation(-1 * rotationY, 0, 1, 0)
-        
         // Final transformation: TxR
         circleNode.transform = SCNMatrix4Mult(translation, rotation)
-    }
-    
-    
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
-        
-    }
-    
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
-    }
-    
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
     }
 }
