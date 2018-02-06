@@ -8,13 +8,13 @@
 
 import CoreLocation
 
-class LocationData{
+class DestinationData{
 
     // "List" of destinations. Structure: [[latitude,longitude], [latitude,longitude], ...]
     var destinationArray: [[Double]] = [[50.553982,9.672056], [50.569736,9.690135]]
     
-    var currentDestLat:Double = 50.568426//50.553982 //50.569736
-    var currentDestLong:Double = 9.690574//9.672056 //9.690135
+    var currentDestLat:Double = 50.553982
+    var currentDestLong:Double = 9.672056
     
     func setCurrentDest(locationNumber:Int){
         if(locationNumber < destinationArray.count){

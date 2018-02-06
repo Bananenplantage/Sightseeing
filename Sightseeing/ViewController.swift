@@ -20,7 +20,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     var locationManager: CLLocationManager!
     var anchor: ARAnchor!
     var circleNode = SCNNode()
-    var locData = LocationData()
+    var textNode = SCNNode()
+    var locData = DestinationData()
     var firstTime: Bool = false
     
     override func viewDidLoad() {
@@ -33,7 +34,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         // Set the view's delegate
         sceneView.delegate = self
-        
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
         
@@ -51,6 +51,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         //circleNode.position = SCNVector3(0, 0, -1) // 1 meter in front of camera
         scene.rootNode.addChildNode(circleNode)
     
+        //Create text node
+        textNode = createTextNode()
+        scene.rootNode.addChildNode(textNode)
+        
         sceneView.scene = scene
         
         //Location Manager
@@ -207,7 +211,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         labelBearing.text = stringFromDouble
         
         if(!firstTime){
-            translateAndRotateNode(with: GLKMathDegreesToRadians(Float(bearing)))
+            translateAndRotateNode(node: circleNode, rotationY: GLKMathDegreesToRadians(Float(bearing)))
+            translateAndRotateNode(node: textNode, rotationY: GLKMathDegreesToRadians(Float(bearing)))
             firstTime = true
             print("translated and rotated node")
         }
@@ -221,16 +226,23 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let geometry = SCNSphere(radius: radius)
         geometry.firstMaterial?.diffuse.contents = color
         let sphereNode = SCNNode(geometry: geometry)
-        print("created sphereNode")
         return sphereNode
     }
     
-    func translateAndRotateNode(with rotationY: Float){
+    func createTextNode() -> SCNNode{
+        let textBlock = SCNText(string: "Dom", extrusionDepth: 0.5)
+        textBlock.firstMaterial?.diffuse.contents = UIColor.red
+        let textNode = SCNNode(geometry: textBlock)
+        textNode.scale = SCNVector3(x: 0.5, y: 0.5, z: 0.5)
+        return textNode
+    }
+    
+    func translateAndRotateNode(node: SCNNode, rotationY: Float){
         // Translate first on -z direction
         let translation = SCNMatrix4MakeTranslation(0, 0, Float(-100))
         // Rotate (yaw) around y axis
         let rotation = SCNMatrix4MakeRotation(-1 * rotationY, 0, 1, 0)
         // Final transformation: TxR
-        circleNode.transform = SCNMatrix4Mult(translation, rotation)
+        node.transform = SCNMatrix4Mult(translation, rotation)
     }
 }
