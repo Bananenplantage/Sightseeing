@@ -56,24 +56,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xQE-fo-dlX">
-                            <rect key="frame" x="0.0" y="72" width="1112" height="44"/>
+                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pa6-Z4-dHb">
+                            <rect key="frame" x="0.0" y="0.0" width="1112" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Show me something"/>
+                            <state key="normal" title="Show ARSCNView"/>
                             <connections>
-                                <segue destination="BV1-FR-VrT" kind="show" id="dCO-hI-FeW"/>
+                                <segue destination="BV1-FR-VrT" kind="show" id="SNh-wX-mMt"/>
                             </connections>
                         </button>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="giF-YU-xQB">
-                                <rect key="frame" x="0.0" y="28" width="1112" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="giF-YU-xQB" id="JGa-Ot-rL3">
-                                    <rect key="frame" x="0.0" y="0.0" width="1112" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="Q7A-J9-JTE" id="zod-xL-Iq4"/>
                             <outlet property="delegate" destination="Q7A-J9-JTE" id="gPJ-8e-FcP"/>
@@ -83,7 +73,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kun-1Y-F7u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="591" y="-97"/>
+            <point key="canvasLocation" x="590.82733812949641" y="-97.122302158273385"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Sog-w8-36U">

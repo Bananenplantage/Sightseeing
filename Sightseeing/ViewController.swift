@@ -18,10 +18,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     @IBOutlet var mapView: MKMapView!
     @IBOutlet weak var labelBearing: UILabel!
     var locationManager: CLLocationManager!
-    var anchor: ARAnchor!
-    var circleNode = SCNNode()
-    var textNode = SCNNode()
     var locData = DestinationData()
+    var sphereData = SphereData()
     var firstTime: Bool = false
     
     override func viewDidLoad() {
@@ -45,15 +43,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let coneNode = SCNNode(geometry: cone)
         coneNode.position = SCNVector3Make(-0.005, -0.035, -0.2)
         sceneView.pointOfView?.addChildNode(coneNode)
- 
-        // Create circle node
-        circleNode = createSphereNode(with: 1, color: .red)
-        //circleNode.position = SCNVector3(0, 0, -1) // 1 meter in front of camera
-        scene.rootNode.addChildNode(circleNode)
-    
-        //Create text node
-        textNode = createTextNode()
-        scene.rootNode.addChildNode(textNode)
+        
+        //Create SphereData
+        scene.rootNode.addChildNode(sphereData.createSphereNode())
+        scene.rootNode.addChildNode(sphereData.createTextNode())
         
         sceneView.scene = scene
         
@@ -69,11 +62,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             locationManager.startUpdatingLocation()
         }
         
-        //Test with Pins
-        print("Set pins")
-        //let annotation = MKPointAnnotation()
-        //Change latitude and longitude for pin-location on map
-        /* let centerCoordinate = CLLocationCoordinate2D(latitude:50.553989, longitude:9.672046)
+        // Test with Pins
+        /* let annotation = MKPointAnnotation()
+        // Change latitude and longitude for pin-location on map
+        let centerCoordinate = CLLocationCoordinate2D(latitude:50.553989, longitude:9.672046)
         annotation.coordinate = centerCoordinate
         annotation.title = "Dom Fulda"
         mapView.addAnnotation(annotation)
@@ -82,7 +74,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         //Enables the function to follow user current location
         mapView.userTrackingMode = .follow
  
-        
         let sourceCoordinates = locationManager.location?.coordinate
         // City: Växjö
         //let sourceCoordinates = CLLocationCoordinate2D(latitude: 56.8790, longitude: 14.8059)
@@ -154,34 +145,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
     }
-
-    // MARK: - ARSCNViewDelegate
     
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
-     
-        return node
-    }
-*/
-
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
     
-    }
-    
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-        
-    }
-    
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
-    }
-    
-    // New functions:
+    // NEW FUNCTIONS:
     
     // MapView settings
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
@@ -209,42 +175,47 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let bearing = locData.getBearingOfLocAndDest(longitude: longitude, latitude: latitude)
         
         let stringFromDouble:String = String(format:"%f", bearing)
-        print("bearing \(bearing)")
+        print("bearing: \(bearing)")
         labelBearing.text = stringFromDouble
         
         if(!firstTime){
-            translateAndRotateNode(node: circleNode, rotationY: GLKMathDegreesToRadians(Float(bearing)))
-            translateAndRotateNode(node: textNode, rotationY: GLKMathDegreesToRadians(Float(bearing)))
             firstTime = true
-            print("translated and rotated node")
+            sphereData.editSphereData(rotationY: GLKMathDegreesToRadians(Float(bearing)))
         }
         else{
             //circleNode.transform = SCNMatrix4MakeTranslation(0, 0, Float(-0.5))
-            print("translated node")
         }
     }
     
-    func createSphereNode(with radius: CGFloat, color: UIColor) -> SCNNode {
-        let geometry = SCNSphere(radius: radius)
-        geometry.firstMaterial?.diffuse.contents = color
-        let sphereNode = SCNNode(geometry: geometry)
-        return sphereNode
+    /*
+     
+        CODE DOWN BELOW NOT RELEVANT FOR THE PROJECT RIGHT NOW
+     
+     */
+    // MARK: - ARSCNViewDelegate
+    
+    /*
+     // Override to create and configure nodes for anchors added to the view's session.
+     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+     let node = SCNNode()
+     
+     return node
+     }
+     */
+    
+    func session(_ session: ARSession, didFailWithError error: Error) {
+        // Present an error message to the user
+        
     }
     
-    func createTextNode() -> SCNNode{
-        let textBlock = SCNText(string: "Dom", extrusionDepth: 0.5)
-        textBlock.firstMaterial?.diffuse.contents = UIColor.red
-        let textNode = SCNNode(geometry: textBlock)
-        textNode.scale = SCNVector3(x: 0.5, y: 0.5, z: 0.5)
-        return textNode
+    func sessionWasInterrupted(_ session: ARSession) {
+        // Inform the user that the session has been interrupted, for example, by presenting an overlay
+        
     }
     
-    func translateAndRotateNode(node: SCNNode, rotationY: Float){
-        // Translate first on -z direction
-        let translation = SCNMatrix4MakeTranslation(0, 0, Float(-100))
-        // Rotate (yaw) around y axis
-        let rotation = SCNMatrix4MakeRotation(-1 * rotationY, 0, 1, 0)
-        // Final transformation: TxR
-        node.transform = SCNMatrix4Mult(translation, rotation)
+    func sessionInterruptionEnded(_ session: ARSession) {
+        // Reset tracking and/or remove existing anchors if consistent tracking is required
+        
     }
+    
 }
