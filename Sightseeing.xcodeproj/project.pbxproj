@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B46844B2022F9EE001F147B /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46844A2022F9EE001F147B /* LocationData.swift */; };
+		6B46844B2022F9EE001F147B /* DestinationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46844A2022F9EE001F147B /* DestinationData.swift */; };
 		6BDB31B9202998E4001286FE /* SceneData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDB31B8202998E4001286FE /* SceneData.swift */; };
 		6BF871DD200769220067F8AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF871DC200769220067F8AD /* AppDelegate.swift */; };
 		6BF871DF200769220067F8AD /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BF871DE200769220067F8AD /* art.scnassets */; };
@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6B46844A2022F9EE001F147B /* LocationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationData.swift; sourceTree = "<group>"; };
+		6B46844A2022F9EE001F147B /* DestinationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DestinationData.swift; sourceTree = "<group>"; };
 		6BDB31B8202998E4001286FE /* SceneData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneData.swift; sourceTree = "<group>"; };
 		6BF871D9200769220067F8AD /* Sightseeing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sightseeing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BF871DC200769220067F8AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -67,7 +67,7 @@
 				6BF871E5200769220067F8AD /* Assets.xcassets */,
 				6BF871E7200769220067F8AD /* LaunchScreen.storyboard */,
 				6BF871EA200769220067F8AD /* Info.plist */,
-				6B46844A2022F9EE001F147B /* LocationData.swift */,
+				6B46844A2022F9EE001F147B /* DestinationData.swift */,
 				6BDB31B8202998E4001286FE /* SceneData.swift */,
 			);
 			path = Sightseeing;
@@ -146,7 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B46844B2022F9EE001F147B /* LocationData.swift in Sources */,
+				6B46844B2022F9EE001F147B /* DestinationData.swift in Sources */,
 				6BF871E1200769220067F8AD /* ViewController.swift in Sources */,
 				6BDB31B9202998E4001286FE /* SceneData.swift in Sources */,
 				6BF871DD200769220067F8AD /* AppDelegate.swift in Sources */,

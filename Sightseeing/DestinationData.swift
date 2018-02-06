@@ -7,15 +7,18 @@
 //
 
 import CoreLocation
+import MapKit
 
 class DestinationData{
 
     // "List" of destinations. Structure: [[latitude,longitude], [latitude,longitude], ...]
     var destinationArray: [[Double]] = [[50.553982,9.672056], [50.569736,9.690135]]
     
+    // Test
     var currentDestLat:Double = 50.553982
     var currentDestLong:Double = 9.672056
     
+    //Setting the current destination
     func setCurrentDest(locationNumber:Int){
         if(locationNumber < destinationArray.count){
             currentDestLat = destinationArray[locationNumber][0]
@@ -26,6 +29,11 @@ class DestinationData{
         }
     }
     
+    //Returns the coordinates as CLLocationCoordinate2D Object
+    func getCLLocationCoordinate2D() -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: currentDestLat, longitude: currentDestLong)
+    }
+    
     // Returns a 2D-Array value with longitude and latiude of location
     func getDestinationCoords(locationNumber:Int) -> [Double]{
         return destinationArray[locationNumber]
@@ -33,12 +41,6 @@ class DestinationData{
     
     // Calculate Bearing between current position and destination
     func getBearingOfLocAndDest(longitude: Double, latitude: Double) -> Double{
-        print("Get bearing func:")
-        print("lat \(latitude)")
-        print("long \(longitude)")
-        print("destlat \(currentDestLat)")
-        print("destlong \(currentDestLong)")
-        
         let lat1Rad = latitude * .pi / 180;
         let lat2Rad = currentDestLat * .pi / 180;
         

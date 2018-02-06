@@ -44,14 +44,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         coneNode.position = SCNVector3Make(-0.005, -0.035, -0.2)
         sceneView.pointOfView?.addChildNode(coneNode)
         
-        //Create SphereData
+        //Create SphereData and add to scene
         scene.rootNode.addChildNode(sphereData.createSphereNode())
         scene.rootNode.addChildNode(sphereData.createTextNode())
         
         sceneView.scene = scene
-        
 
-        //Location Manager
+        //Init Location Manager
         if (CLLocationManager.locationServicesEnabled())
         {
             locationManager = CLLocationManager()
