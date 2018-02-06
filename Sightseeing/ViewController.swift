@@ -12,10 +12,10 @@ import ARKit
 import CoreLocation
 import MapKit
 
-class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDelegate{
+class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDelegate, MKMapViewDelegate{
 
     @IBOutlet var sceneView: ARSCNView!
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet var mapView: MKMapView!
     @IBOutlet weak var labelBearing: UILabel!
     var locationManager: CLLocationManager!
     var anchor: ARAnchor!
@@ -25,6 +25,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
+     
+        mapView.delegate = self
+        mapView.showsPointsOfInterest = true
+        mapView.showsUserLocation = true
+        mapView.showsScale = true
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -60,9 +65,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         //Test with Pins
         print("Set pins")
-        let annotation = MKPointAnnotation()
+        //let annotation = MKPointAnnotation()
         //Change latitude and longitude for pin-location on map
-        let centerCoordinate = CLLocationCoordinate2D(latitude:50.553989, longitude:9.672046)
+        /* let centerCoordinate = CLLocationCoordinate2D(latitude:50.553989, longitude:9.672046)
         annotation.coordinate = centerCoordinate
         annotation.title = "Dom Fulda"
         mapView.addAnnotation(annotation)
@@ -70,6 +75,56 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         //Enables the function to follow user current location
         mapView.userTrackingMode = .follow
+        */
+        
+        // City: Växjö
+        let sourceCoordinates = CLLocationCoordinate2D(latitude: 56.8790, longitude: 14.8059)
+        
+        // City: Malmö
+        let destCoordinates = CLLocationCoordinate2D(latitude: 55.6050, longitude: 13.0038)
+        
+        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinates)
+        let destPlacemark = MKPlacemark(coordinate: destCoordinates)
+        
+        //MapItem Creation for getting direction
+        let sourceItem = MKMapItem(placemark: sourcePlaceMark)
+        let destItem = MKMapItem(placemark: destPlacemark)
+        
+        let directionRequest = MKDirectionsRequest()
+        directionRequest.source = sourceItem
+        directionRequest.destination = destItem
+        
+        directionRequest.transportType = .walking
+        
+        //Put direction on the map
+        let directions = MKDirections(request: directionRequest)
+        directions.calculate(completionHandler: {
+            response, error in
+            // Error handling
+            guard let response = response else {
+                if let error = error {
+                    print("Ups, there seem to be a problem")
+                }
+                return
+            }
+            //routes 0 : fastes route
+            let route = response.routes[0]
+            self.mapView.add(route.polyline, level: .aboveRoads)
+            
+            // Starting Postion when application gets started
+            let rectangle = route.polyline.boundingMapRect
+            self.mapView.setRegion(MKCoordinateRegionForMapRect(rectangle), animated: true)
+        })
+    }
+    // Making the Polyline visible by choosing a color and width
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer{
+        // Set the mapView's delegate
+        
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.blue
+        renderer.lineWidth = 5.0
+        
+        return renderer
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -124,8 +179,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     
     // MapView settings
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        let location = locations.last as! CLLocation
         
+        let location = locations.last as! CLLocation
         let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         
