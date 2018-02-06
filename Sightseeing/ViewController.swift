@@ -57,12 +57,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         sceneView.scene = scene
         
+
         //Location Manager
         if (CLLocationManager.locationServicesEnabled())
         {
             locationManager = CLLocationManager()
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.requestWhenInUseAuthorization()
             locationManager.requestAlwaysAuthorization()
             locationManager.startUpdatingLocation()
         }
@@ -76,18 +78,18 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         annotation.title = "Dom Fulda"
         mapView.addAnnotation(annotation)
         print("Annotation \(annotation.coordinate)")
-        
+        */
         //Enables the function to follow user current location
         mapView.userTrackingMode = .follow
-        */
+ 
         
+        let sourceCoordinates = locationManager.location?.coordinate
         // City: Växjö
-        let sourceCoordinates = CLLocationCoordinate2D(latitude: 56.8790, longitude: 14.8059)
+        //let sourceCoordinates = CLLocationCoordinate2D(latitude: 56.8790, longitude: 14.8059)
         
         // City: Malmö
         let destCoordinates = CLLocationCoordinate2D(latitude: 55.6050, longitude: 13.0038)
-        
-        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinates)
+        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinates!)
         let destPlacemark = MKPlacemark(coordinate: destCoordinates)
         
         //MapItem Creation for getting direction

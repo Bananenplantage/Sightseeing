@@ -20,10 +20,12 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This application tracks the user location</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This application will use the camera for Augmented Reality.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>This application tracks the user location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Can we access your location?</string>
 	<key>UILaunchStoryboardName</key>
