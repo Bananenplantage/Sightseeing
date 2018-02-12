@@ -73,14 +73,17 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         //Enables the function to follow user current location
         mapView.userTrackingMode = .follow
  
-        let sourceCoordinates = locationManager.location?.coordinate
+        //let sourceCoordinates = locationManager.location?.coordinate
         // City: Växjö
-        //let sourceCoordinates = CLLocationCoordinate2D(latitude: 56.8790, longitude: 14.8059)
-        
+        let sourceCoordinates = CLLocationCoordinate2D(latitude: 56.8790, longitude: 14.8059)
         // City: Malmö
         let destCoordinates = CLLocationCoordinate2D(latitude: 55.6050, longitude: 13.0038)
-        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinates!)
+        
+        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinates)
         let destPlacemark = MKPlacemark(coordinate: destCoordinates)
+        
+        //Destination between two coordinates
+        let routeDistance : CLLocationDistance = sourceCoordinates.distanceFromLocation(destCoordinates)
         
         //MapItem Creation for getting direction
         let sourceItem = MKMapItem(placemark: sourcePlaceMark)
