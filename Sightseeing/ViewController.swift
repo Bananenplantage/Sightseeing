@@ -25,6 +25,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet var mapView: MKMapView!
     @IBOutlet weak var labelBearing: UILabel!
+    @IBOutlet weak var labelDistance: UILabel!
     var locationManager: CLLocationManager!
     //var locData = DestinationData()
     var sphereData = SphereData()
@@ -90,6 +91,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinates)
         let destPlacemark = MKPlacemark(coordinate: destCoordinates)
+        
+        let distance = sourceCoordinates.distance(from: destCoordinates) / 1000
+        print(String(format: "Distance between Växjö and Mämo is: %.01fkm", distance))
+        
         
         //Destination between two coordinates
         //!!!IS BUGGY
@@ -184,9 +189,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         print("latitude: \(latitude)")
         print("longitude: \(longitude)")
         
+      
         let bearing = DestinationData.getBearingOfLocAndDest(longitude: longitude, latitude: latitude)
-        
-        
         let stringFromDouble:String = String(format:"%f", bearing)
         print("bearing: \(bearing)")
         labelBearing.text = stringFromDouble
