@@ -51,23 +51,15 @@
         <!--Choose Destination-->
         <scene sceneID="aye-OY-lWn">
             <objects>
-                <tableViewController id="Q7A-J9-JTE" sceneMemberID="viewController">
+                <tableViewController id="Q7A-J9-JTE" customClass="DestinationViewController" customModule="Sightseeing" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="DuH-Hp-lDy">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pa6-Z4-dHb">
-                            <rect key="frame" x="0.0" y="205.5" width="1112" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Show ARSCNView"/>
-                            <connections>
-                                <segue destination="BV1-FR-VrT" kind="show" id="SNh-wX-mMt"/>
-                            </connections>
-                        </button>
                         <sections>
                             <tableViewSection headerTitle="Fulda" id="W34-mx-Dn2">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="7xz-u9-vLY" style="IBUITableViewCellStyleDefault" id="ib6-bq-vEF">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="7xz-u9-vLY" style="IBUITableViewCellStyleDefault" id="ib6-bq-vEF" customClass="DestinationCell">
                                         <rect key="frame" x="0.0" y="55.5" width="1112" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ib6-bq-vEF" id="G6n-bg-Smb">
@@ -83,6 +75,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="BV1-FR-VrT" kind="show" id="fDd-GK-UT5"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="IGz-17-wZv" style="IBUITableViewCellStyleDefault" id="nYB-ck-jHd">
                                         <rect key="frame" x="0.0" y="99.5" width="1112" height="44"/>
@@ -100,6 +95,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="BV1-FR-VrT" kind="show" id="HUW-lr-AJl"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="ign-0e-zxo" style="IBUITableViewCellStyleDefault" id="Rz0-T2-wiy">
                                         <rect key="frame" x="0.0" y="143.5" width="1112" height="44"/>
@@ -117,6 +115,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="BV1-FR-VrT" kind="show" id="cSe-kU-KVa"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -149,4 +150,7 @@
             <point key="canvasLocation" x="-100" y="-97"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="fDd-GK-UT5"/>
+    </inferredMetricsTieBreakers>
 </document>

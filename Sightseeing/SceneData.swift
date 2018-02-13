@@ -44,4 +44,8 @@ class SphereData{
         sphereNode.transform = SCNMatrix4Mult(translation, rotation)
         textNode.transform = SCNMatrix4Mult(translation, rotation)
     }
+    
+    func getSphereData() -> Bool{
+        return true
+    }
 }

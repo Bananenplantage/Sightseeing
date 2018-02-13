@@ -18,11 +18,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     @IBOutlet var mapView: MKMapView!
     @IBOutlet weak var labelBearing: UILabel!
     var locationManager: CLLocationManager!
-    var locData = DestinationData()
+    //var locData = DestinationData()
     var sphereData = SphereData()
     var firstTime: Bool = false
     
     override func viewDidLoad() {
+        print("View did load")
         super.viewDidLoad()
      
         mapView.delegate = self
@@ -83,7 +84,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let destPlacemark = MKPlacemark(coordinate: destCoordinates)
         
         //Destination between two coordinates
-        let routeDistance : CLLocationDistance = sourceCoordinates.distanceFromLocation(destCoordinates)
+        //!!!IS BUGGY
+        //let routeDistance : CLLocationDistance = sourceCoordinates.distanceFromLocation(destCoordinates)
         
         //MapItem Creation for getting direction
         let sourceItem = MKMapItem(placemark: sourcePlaceMark)
@@ -174,7 +176,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         print("latitude: \(latitude)")
         print("longitude: \(longitude)")
         
-        let bearing = locData.getBearingOfLocAndDest(longitude: longitude, latitude: latitude)
+        let bearing = DestinationData.getBearingOfLocAndDest(longitude: longitude, latitude: latitude)
         
         let stringFromDouble:String = String(format:"%f", bearing)
         print("bearing: \(bearing)")
