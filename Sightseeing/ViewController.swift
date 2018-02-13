@@ -12,6 +12,14 @@ import ARKit
 import CoreLocation
 import MapKit
 
+extension CLLocationCoordinate2D{
+    func distance(from:CLLocationCoordinate2D) -> CLLocationDistance{
+        let sourceCoordinates = CLLocation(latitude: 56.8790, longitude: 14.8059)
+        return CLLocation(latitude: 55.6050, longitude: 13.0038).distance(from: sourceCoordinates)
+    }
+}
+
+
 class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDelegate, MKMapViewDelegate{
 
     @IBOutlet var sceneView: ARSCNView!
@@ -177,6 +185,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         print("longitude: \(longitude)")
         
         let bearing = DestinationData.getBearingOfLocAndDest(longitude: longitude, latitude: latitude)
+        
         
         let stringFromDouble:String = String(format:"%f", bearing)
         print("bearing: \(bearing)")
