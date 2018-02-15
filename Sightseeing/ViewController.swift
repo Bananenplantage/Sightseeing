@@ -64,66 +64,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
             locationManager.requestAlwaysAuthorization()
             locationManager.startUpdatingLocation()
         }
-        
-        // Test with Pins
-        /* let annotation = MKPointAnnotation()
-        // Change latitude and longitude for pin-location on map
-        let centerCoordinate = CLLocationCoordinate2D(latitude:50.553989, longitude:9.672046)
-        annotation.coordinate = centerCoordinate
-        annotation.title = "Dom Fulda"
-        mapView.addAnnotation(annotation)
-        print("Annotation \(annotation.coordinate)")
-        */
         //Enables the function to follow user current location
         mapView.userTrackingMode = .follow
- 
-        //let sourceCoordinates = locationManager.location?.coordinate
-        // City: Växjö
-        let sourceCoordinates = CLLocationCoordinate2D(latitude: 56.8790, longitude: 14.8059)
-        // City: Malmö
-        let destCoordinates = CLLocationCoordinate2D(latitude: 55.6050, longitude: 13.0038)
-        
-        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinates)
-        let destPlacemark = MKPlacemark(coordinate: destCoordinates)
-        
-        //let distance = sourceCoordinates.distance(from: destCoordinates) / 1000
-        //print(String(format: "Distance between Växjö and Mämo is: %.01fkm", distance))
-        
-        
-        //Destination between two coordinates
-        //!!!IS BUGGY
-        //let routeDistance : CLLocationDistance = sourceCoordinates.distanceFromLocation(destCoordinates)
-        
-        //MapItem Creation for getting direction
-        let sourceItem = MKMapItem(placemark: sourcePlaceMark)
-        let destItem = MKMapItem(placemark: destPlacemark)
-        
-        let directionRequest = MKDirectionsRequest()
-        directionRequest.source = sourceItem
-        directionRequest.destination = destItem
-        
-        directionRequest.transportType = .walking
-        
-        //Put direction on the map
-        let directions = MKDirections(request: directionRequest)
-        directions.calculate(completionHandler: {
-            response, error in
-            // Error handling
-            guard let response = response else {
-                if let error = error {
-                    print("Ups, there seem to be a problem")
-                }
-                return
-            }
-            //routes 0 : fastes route
-            let route = response.routes[0]
-            self.mapView.add(route.polyline, level: .aboveRoads)
-            
-            // Starting Postion when application gets started
-            let rectangle = route.polyline.boundingMapRect
-            self.mapView.setRegion(MKCoordinateRegionForMapRect(rectangle), animated: true)
-        })
     }
+    
     // Making the Polyline visible by choosing a color and width
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer{
         // Set the mapView's delegate
