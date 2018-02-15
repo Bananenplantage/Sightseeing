@@ -17,6 +17,7 @@ class DestinationData{
     // Test
     static var currentDestLat:Double = 50.553982
     static var currentDestLong:Double = 9.672056
+    static var currentDestination:CLLocation!
     
     //Setting the current destination
     static func setCurrentDest(locationNumber:Int){
@@ -24,12 +25,12 @@ class DestinationData{
         if(locationNumber < destinationArray.count){
             currentDestLat = destinationArray[locationNumber][0]
             currentDestLong = destinationArray[locationNumber][1]
+            currentDestination = CLLocation(latitude: currentDestLat, longitude: currentDestLong)
         }
         else{
             print("Error! Wrong location number!")
         }
     }
-    
     //Returns the coordinates as CLLocationCoordinate2D Object
     static func getCLLocationCoordinate2D() -> CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: currentDestLat, longitude: currentDestLong)
@@ -55,4 +56,31 @@ class DestinationData{
         return fmod((bearingRad * 180 / .pi + 360 ),360)
     }
     
+    static func getDirectionRequest(sourceCoordinates:CLLocationCoordinate2D) -> MKDirectionsRequest{
+        
+        let destCoordinates = CLLocationCoordinate2D(latitude: currentDestLat, longitude: currentDestLong)
+      
+        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinates)
+        let destPlacemark = MKPlacemark(coordinate: destCoordinates)
+        
+        //MapItem Creation for getting direction
+        let sourceItem = MKMapItem(placemark: sourcePlaceMark)
+        let destItem = MKMapItem(placemark: destPlacemark)
+        
+        let directionRequest = MKDirectionsRequest()
+        directionRequest.source = sourceItem
+        directionRequest.destination = destItem
+        directionRequest.transportType = .walking
+
+        return directionRequest
+    }
+    
+    static func getDistance(currentLocation: CLLocation) -> CLLocationDistance{
+        
+        let distance = currentLocation.distance(from: currentDestination)
+        
+        return distance
+    }
+    
+
 }
