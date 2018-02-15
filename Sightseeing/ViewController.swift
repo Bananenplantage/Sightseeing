@@ -20,6 +20,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     @IBOutlet weak var labelBearing: UILabel!
     @IBOutlet weak var labelDistance: UILabel!
     var locationManager: CLLocationManager!
+    var currentLocation: CLLocationCoordinate2D!
     //var locData = DestinationData()
     var sphereData = SphereData()
     var firstTime: Bool = false
@@ -85,8 +86,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinates)
         let destPlacemark = MKPlacemark(coordinate: destCoordinates)
         
-        let distance = sourceCoordinates.distance(from: destCoordinates) / 1000
-        print(String(format: "Distance between Växjö and Mämo is: %.01fkm", distance))
+        //let distance = sourceCoordinates.distance(from: destCoordinates) / 1000
+        //print(String(format: "Distance between Växjö and Mämo is: %.01fkm", distance))
         
         
         //Destination between two coordinates
@@ -182,7 +183,33 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         print("latitude: \(latitude)")
         print("longitude: \(longitude)")
         
-      
+        //Set currentLocation
+        currentLocation = coord
+        
+        //Put direction on the map
+        let directions = MKDirections(request:DestinationData.getDirectionRequest(sourceCoordinates: currentLocation))
+        directions.calculate(completionHandler: {
+            response, error in
+            // Error handling
+            guard let response = response else {
+                if let error = error {
+                    print("Ups, there seem to be a problem")
+                }
+                return
+            }
+            //routes 0 : fastest route
+            let route = response.routes[0]
+            self.mapView.add(route.polyline, level: .aboveRoads)
+            // Starting position when view gets loaded
+            let rectangle = route.polyline.boundingMapRect
+            self.mapView.setRegion(MKCoordinateRegionForMapRect(rectangle), animated: true)
+            
+        })
+        
+        //Get Distance
+        let distance = DestinationData.getDistance(currentLocation: CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude))
+        print("The real distance \(distance)")
+        
         let bearing = DestinationData.getBearingOfLocAndDest(longitude: longitude, latitude: latitude)
         let stringFromDouble:String = String(format:"%f", bearing)
         print("bearing: \(bearing)")
