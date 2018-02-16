@@ -21,12 +21,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
     @IBOutlet weak var labelDistance: UILabel!
     var locationManager: CLLocationManager!
     var currentLocation: CLLocationCoordinate2D!
-    //var locData = DestinationData()
     var sphereData = SphereData()
     var firstTime: Bool = false
+    var distance:Double!
+    var metersLeft:Double = 0.0
+    var diff:Double = 0.0
+    
+    var configuration = ARWorldTrackingConfiguration()
     
     override func viewDidLoad() {
-        print("View did load")
         super.viewDidLoad()
      
         mapView.delegate = self
@@ -83,7 +86,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         super.viewWillAppear(animated)
         
         // Create a session configuration
-        let configuration = ARWorldTrackingConfiguration()
+        //let configuration = ARWorldTrackingConfiguration()
         configuration.worldAlignment = .gravityAndHeading//.gravity
         // Run the view's session
         sceneView.session.run(configuration)
@@ -151,19 +154,51 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         })
         
         //Get Distance
-        let distance = DestinationData.getDistance(currentLocation: CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude))
+        distance = DestinationData.getDistance(currentLocation: CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude))
         print("The real distance \(distance)")
+        if(metersLeft == 0){
+            metersLeft = distance
+        }
+        else{
+            if((metersLeft - distance) > 0){
+                metersLeft = metersLeft - distance
+                diff = metersLeft - distance
+            }
+        }
+        //Set label with km
+        let stringFromDouble:String = String(format:"%.2f", distance)
+        labelBearing.text = stringFromDouble + " meters left"
         
         let bearing = DestinationData.getBearingOfLocAndDest(longitude: longitude, latitude: latitude)
-        let stringFromDouble:String = String(format:"%f", bearing)
+        //let stringFromDouble2:String = String(format:"%f", bearing)
         print("bearing: \(bearing)")
-        labelBearing.text = stringFromDouble
+        //labelBearing.text = stringFromDouble2
         
         if(!firstTime){
             firstTime = true
             sphereData.editSphereData(rotationY: GLKMathDegreesToRadians(Float(bearing)), title: DestinationData.getCurrentDestinationAsString())
         }
         else{
+            
+
+            if(diff >= 500.0 && distance >= 500.0){
+                //Reset scene
+                sceneView.session.pause()
+                sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
+                    node.removeFromParentNode()
+                }
+                sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+                
+                //Create SphereData and add to scene
+                let scene = SCNScene()
+                scene.rootNode.addChildNode(sphereData.createSphereNode())
+                scene.rootNode.addChildNode(sphereData.createTextNode())
+                
+                sceneView.scene = scene
+                
+                sphereData.editSphereData(rotationY: GLKMathDegreesToRadians(Float(bearing)), title: DestinationData.getCurrentDestinationAsString())
+            }
+            
             //circleNode.transform = SCNMatrix4MakeTranslation(0, 0, Float(-0.5))
         }
     }

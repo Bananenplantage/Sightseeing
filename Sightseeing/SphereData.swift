@@ -25,7 +25,7 @@ class SphereData{
         return sphereNode
     }
     
-    func createTextNode(rotationY:Float = 0.0, distance:Float = 0.0, title:String = "title") -> SCNNode{
+    func createTextNode(rotationY:Float = 0.0, distance:Float = 0.0, title:String = "test") -> SCNNode{
         print("SphereData. Created Textnode")
         let textBlock = SCNText(string: title, extrusionDepth: 0.5)
         textBlock.firstMaterial?.diffuse.contents = UIColor.red
@@ -36,9 +36,13 @@ class SphereData{
     
     func editSphereData(rotationY:Float, title:String = "title"){
         print("SphereData. Edited SphereData")
-        textNode.geometry.string = title
+        print("SphereNode position: \(sphereNode.position)")
+        if let textGeometry = textNode.geometry as? SCNText {
+            textGeometry.string = title
+        }
+
         // Translate first on -z direction
-        let translation = SCNMatrix4MakeTranslation(0, 0, Float(-100))
+        let translation = SCNMatrix4MakeTranslation(0, 0, Float(-500))
         // Rotate (yaw) around y axis
         let rotation = SCNMatrix4MakeRotation(-1 * rotationY, 0, 1, 0)
         // Final transformation: TxR
