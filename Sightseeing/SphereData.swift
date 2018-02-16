@@ -36,6 +36,7 @@ class SphereData{
     
     func editSphereData(rotationY:Float, title:String = "title"){
         print("SphereData. Edited SphereData")
+        textNode.geometry.string = title
         // Translate first on -z direction
         let translation = SCNMatrix4MakeTranslation(0, 0, Float(-100))
         // Rotate (yaw) around y axis

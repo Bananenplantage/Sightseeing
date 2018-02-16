@@ -12,20 +12,25 @@ import MapKit
 class DestinationData{
 
     // "List" of destinations. Structure: [[latitude,longitude], [latitude,longitude], ...]
-    static var destinationArray: [[Double]] = [[50.553982,9.672056], [50.569736,9.690135]]
+    static var destinations: [[Double]] = [[50.553982,9.672056], [50.569736,9.690135]]
+    // "List of destination names.
+    static var destinationStrings: [String] = ["Dom", "Hochschule"]
     
-    // Test
+    // Test / Init
     static var currentDestLat:Double = 50.553982
     static var currentDestLong:Double = 9.672056
+    static var currentDestinationString: String = "Dom"
     static var currentDestination:CLLocation!
+    
     
     //Setting the current destination
     static func setCurrentDest(locationNumber:Int){
         print("Invoked setCurrentDest in DestinationData")
-        if(locationNumber < destinationArray.count){
-            currentDestLat = destinationArray[locationNumber][0]
-            currentDestLong = destinationArray[locationNumber][1]
+        if(locationNumber < destinations.count){
+            currentDestLat = destinations[locationNumber][0]
+            currentDestLong = destinations[locationNumber][1]
             currentDestination = CLLocation(latitude: currentDestLat, longitude: currentDestLong)
+            currentDestinationString = destinationStrings[locationNumber]
         }
         else{
             print("Error! Wrong location number!")
@@ -38,7 +43,7 @@ class DestinationData{
     
     // Returns a 2D-Array value with longitude and latiude of location
     static func getDestinationCoords(locationNumber:Int) -> [Double]{
-        return destinationArray[locationNumber]
+        return destinations[locationNumber]
     }
     
     // Calculate Bearing between current position and destination
@@ -76,10 +81,12 @@ class DestinationData{
     }
     
     static func getDistance(currentLocation: CLLocation) -> CLLocationDistance{
-        
         let distance = currentLocation.distance(from: currentDestination)
-        
         return distance
+    }
+    
+    static func getCurrentDestinationAsString() -> String{
+        return currentDestinationString
     }
     
 

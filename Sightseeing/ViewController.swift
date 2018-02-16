@@ -161,7 +161,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, CLLocationManagerDele
         
         if(!firstTime){
             firstTime = true
-            sphereData.editSphereData(rotationY: GLKMathDegreesToRadians(Float(bearing)))
+            sphereData.editSphereData(rotationY: GLKMathDegreesToRadians(Float(bearing)), title: DestinationData.getCurrentDestinationAsString())
         }
         else{
             //circleNode.transform = SCNMatrix4MakeTranslation(0, 0, Float(-0.5))
