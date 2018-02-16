@@ -12,9 +12,9 @@ import MapKit
 class DestinationData{
 
     // "List" of destinations. Structure: [[latitude,longitude], [latitude,longitude], ...]
-    static var destinations: [[Double]] = [[50.553982,9.672056], [50.569736,9.690135]]
+    static var destinations: [[Double]] = [[50.553982,9.672056], [50.569736,9.690135], [50.549624,9.675762]]
     // "List of destination names.
-    static var destinationStrings: [String] = ["Dom", "Hochschule"]
+    static var destinationStrings: [String] = ["Dom", "Hochschule Fulda", "Bermuda Dreieck"]
     
     // Test / Init
     static var currentDestLat:Double = 50.553982
