@@ -135,6 +135,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="BV1-FR-VrT" kind="show" id="1RT-Hh-A37"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
