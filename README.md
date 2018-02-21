@@ -1,7 +1,7 @@
 # Sightseeing-App
 
 ## About
-This project arose as a part of the module \'84Building mobile and web apps\'93 in Master Global Software Development at University of Applied Sciences in Fulda.
+This project arose as a part of the module "Building mobile and web apps" in Master Global Software Development at University of Applied Sciences in Fulda.
 Held by Prof. Jung.
 
 ## Our App
