@@ -16,6 +16,7 @@ The only thing you need, is an iPhone or iPad with minimum iOS version 11 or lat
 - Xcode 9.2 with Swift 4 [https://developer.apple.com/xcode/] - The IDE and programming language we used
 - ARKit  [https://developer.apple.com/arkit/] - SDK for developing Augmented Reality application
 - MapKit [https://developer.apple.com/documentation/mapkit] -  SDK used for displaying maps, user location and routes
+- Trello [https://trello.com/] - Used for Task Management Application
 
 ## Authors
 * **Aleksandar Mitkovski** - *Master Student Global Software Development at University of Applied Sciences in Fulda*
